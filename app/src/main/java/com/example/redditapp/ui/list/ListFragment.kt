@@ -47,6 +47,7 @@ class ListFragment: BaseFragment() {
         viewModel.items.observe(viewLifecycleOwner, {
             adapter.posts = it
         })
+        viewModel.getData()
     }
 
     private fun openDetailFragment(model: PostModel) {

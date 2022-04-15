@@ -37,7 +37,7 @@ class MyAdapter(private val onClick: (PostModel) -> Unit): RecyclerView.Adapter<
                 with(item) {
                     tvPost.text = title
                     tvPostAuthor.text = author
-                    tvPostTime.text = time.toString()
+                    tvPostTime.text = postTime.toString()
                     tvComments.text = numComments.toString()
                     Glide.with(itemView)
                         .load(thumbnail)

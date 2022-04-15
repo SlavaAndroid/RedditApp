@@ -3,28 +3,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginBottom="8dp"
-    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:background="@color/cardview_dark_background"
+        tools:ignore="MissingConstraints">
+
+    </View>
+
     <TextView
         android:id="@+id/tvPost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="PostText"
-        android:textSize="24sp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_margin="16dp"
+        android:ellipsize="end"
+        android:text="PostText"
+        android:textSize="18sp"
+        android:maxLines="3"
+        app:layout_constraintBottom_toTopOf="@+id/ivPostAuthor"
+        app:layout_constraintEnd_toStartOf="@+id/ivThumbnail"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.063" />
 
     <ImageView
         android:id="@+id/ivThumbnail"
         android:layout_width="90dp"
         android:layout_height="95dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_margin="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvPost"
+        app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <ImageView

@@ -3,18 +3,23 @@ package com.example.redditapp.ui.list
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.redditapp.model.PostModel
+import com.example.redditapp.repository.Repository
+import com.example.redditapp.repository.RepositoryImpl
+import kotlinx.coroutines.launch
 
 class MyViewModel(application: Application): AndroidViewModel(application) {
 
     var items = MutableLiveData<MutableList<PostModel>>(mutableListOf())
+    private val repository: Repository = RepositoryImpl()
 
-    init {
-        val list = mutableListOf<PostModel>()
-        val postModel = PostModel("20", "titleText", "author", "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png", "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png",300, 5)
-        for (i in 0 until 20) {
-            list.add(postModel)
+    fun getData() {
+        viewModelScope.launch {
+            val response = repository.getTopData()
+            val after = response.after
+            val listData = response.childrenData.postModelData.map { it.postModel }
+            items.postValue(listData as MutableList<PostModel>)
         }
-        items.postValue(list)
     }
 }

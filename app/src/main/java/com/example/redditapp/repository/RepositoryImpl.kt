@@ -1,4 +1,13 @@
 package com.example.redditapp.repository
 
-class RepositoryImpl {
+import com.example.redditapp.api.ApiFactory
+import com.example.redditapp.model.TopData
+
+open class RepositoryImpl: Repository {
+
+    private var remote = ApiFactory.apiService
+
+    override suspend fun getTopData(): TopData {
+        return remote.getTopPosts()
+    }
 }
