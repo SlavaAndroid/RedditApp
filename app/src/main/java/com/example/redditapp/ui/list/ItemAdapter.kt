@@ -4,24 +4,29 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.redditapp.R
 import com.example.redditapp.databinding.ListItemBinding
 import com.example.redditapp.model.PostModel
 import com.example.redditapp.utils.extensions.getHours
 
-class MyAdapter(private val onClick: (PostModel) -> Unit): RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class ItemAdapter(private val onClick: (PostModel) -> Unit) :
+    RecyclerView.Adapter<ItemAdapter.ImageViewHolder>() {
 
     var posts: MutableList<PostModel> = mutableListOf()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemBinding = ListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MyViewHolder(itemBinding)
+    fun addData(list: MutableList<PostModel>) {
+        val startIndex = posts.size
+        posts.addAll(list)
+        notifyItemRangeInserted(startIndex, list.size)
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
+        val itemBinding =
+            ListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ImageViewHolder(itemBinding)
+    }
+
+    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         val post = posts[position]
         holder.bind(post)
     }
@@ -30,7 +35,7 @@ class MyAdapter(private val onClick: (PostModel) -> Unit): RecyclerView.Adapter<
         return posts.size
     }
 
-    inner class MyViewHolder(binding: ListItemBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ImageViewHolder(binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         private val item = binding
 
         fun bind(model: PostModel) {
@@ -43,6 +48,7 @@ class MyAdapter(private val onClick: (PostModel) -> Unit): RecyclerView.Adapter<
                     Glide.with(itemView)
                         .load(thumbnail)
                         .centerCrop()
+                        .error(R.drawable.ic_outline_outlet_24)
                         .into(ivThumbnail)
                 }
             }

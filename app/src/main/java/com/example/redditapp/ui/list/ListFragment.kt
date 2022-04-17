@@ -7,14 +7,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.redditapp.databinding.FragmentListBinding
 import com.example.redditapp.model.PostModel
 import com.example.redditapp.ui.common.BaseFragment
 import com.example.redditapp.ui.details.DetailsFragment
+import com.example.redditapp.utils.extensions.isNetworkAvailable
 
-class ListFragment: BaseFragment() {
+class ListFragment : BaseFragment() {
     lateinit var binding: FragmentListBinding
-    lateinit var viewModel: MyViewModel
+    lateinit var viewModel: ImageViewModel
 
     companion object {
         fun newInstance(): ListFragment {
@@ -36,7 +38,7 @@ class ListFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = MyAdapter { model ->
+        val adapter = ItemAdapter { model ->
             if (model.isImage()) {
                 openDetailFragment(model)
             } else {
@@ -44,29 +46,50 @@ class ListFragment: BaseFragment() {
             }
         }
 
-        binding.rv.layoutManager = LinearLayoutManager(context)
+        val layoutManager = LinearLayoutManager(context)
+        binding.rv.layoutManager = layoutManager
         binding.rv.adapter = adapter
 
-        viewModel = ViewModelProvider(requireActivity()) [MyViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[ImageViewModel::class.java]
 
-        viewModel.items.observe(viewLifecycleOwner, {
-            if (it.isNullOrEmpty()) {
-                viewModel.getData()
-            } else {
-                adapter.posts = it
-            }
+        if (requireContext().isNetworkAvailable()) {
+            viewModel.additionalItems.observe(viewLifecycleOwner, {
+                if (it.isNullOrEmpty()) {
+                    viewModel.getData()
+                } else {
+                    adapter.addData(it)
+                }
+            })
+        } else {
+            Toast.makeText(activity, "NO INTERNET CONNECTION. TRY LATER", Toast.LENGTH_LONG).show()
+        }
+
+        viewModel.isShowingDialog.observe(viewLifecycleOwner, {
+            if (it) showDialog()
+            else hideDialog()
         })
 
-//        viewModel.isLoading.observe(viewLifecycleOwner, {
-//
-//
-//        })
-
+        binding.rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    val itemsCount = layoutManager.itemCount
+                    val lastVisible = layoutManager.findLastCompletelyVisibleItemPosition()
+                    if ((itemsCount - lastVisible) < COUNT_TO_DOWNLOAD) {
+                        viewModel.getData()
+                    }
+                }
+            }
+        })
     }
 
     private fun openDetailFragment(model: PostModel) {
         val detailsFragment = DetailsFragment.newInstance(model)
-        addFragment(detailsFragment)
+        if (context.isNetworkAvailable()) {
+            replaceFragment(detailsFragment)
+        } else {
+            Toast.makeText(activity, "NO INTERNET CONNECTION. TRY LATER", Toast.LENGTH_LONG).show()
+        }
     }
 }
 

@@ -4,5 +4,6 @@ import com.example.redditapp.model.TopData
 
 interface Repository {
 
-    suspend fun getTopData(): TopData
+    suspend fun getTopData(after: String?): TopData
+
 }

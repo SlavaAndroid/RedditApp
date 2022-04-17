@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Reddit App</string>
+    <string name="dialog_loading">LOADING...</string>
 </resources>

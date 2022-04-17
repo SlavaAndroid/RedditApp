@@ -12,4 +12,12 @@ class MainActivity : BaseActivity() {
 
         replaceFragment(ListFragment.newInstance())
     }
+
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount < 2) {
+            finish()
+        } else {
+            supportFragmentManager.popBackStack()
+        }
+    }
 }

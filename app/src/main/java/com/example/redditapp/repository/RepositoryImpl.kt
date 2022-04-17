@@ -7,7 +7,7 @@ open class RepositoryImpl: Repository {
 
     private var remote = ApiFactory.apiService
 
-    override suspend fun getTopData(): TopData {
-        return remote.getTopPosts()
+    override suspend fun getTopData(after: String?): TopData {
+        return remote.getTopPosts(after = after)
     }
 }

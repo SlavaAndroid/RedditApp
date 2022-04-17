@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginBottom="8dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp">
 
     <View
         android:layout_width="wrap_content"
@@ -20,9 +20,9 @@
         android:layout_height="0dp"
         android:layout_margin="16dp"
         android:ellipsize="end"
+        android:maxLines="3"
         android:text="PostText"
         android:textSize="18sp"
-        android:maxLines="3"
         app:layout_constraintBottom_toTopOf="@+id/ivPostAuthor"
         app:layout_constraintEnd_toStartOf="@+id/ivThumbnail"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,6 +34,7 @@
         android:layout_width="90dp"
         android:layout_height="95dp"
         android:layout_margin="16dp"
+        android:background="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
@@ -42,8 +43,8 @@
         android:id="@+id/ivPostAuthor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         android:src="@drawable/ic_outline_person_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvPost"
@@ -56,15 +57,15 @@
         android:paddingStart="2dp"
         android:text="author"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/ivPostAuthor"
-        app:layout_constraintBottom_toBottomOf="@+id/ivPostAuthor" />
+        app:layout_constraintBottom_toBottomOf="@+id/ivPostAuthor"
+        app:layout_constraintStart_toEndOf="@+id/ivPostAuthor" />
 
     <ImageView
         android:id="@+id/ivHourglass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_outline_hourglass_empty_24"
         android:layout_marginStart="16dp"
+        android:src="@drawable/ic_outline_hourglass_empty_24"
         app:layout_constraintStart_toEndOf="@+id/tvPostAuthor"
         app:layout_constraintTop_toTopOf="@+id/ivPostAuthor" />
 
@@ -74,15 +75,15 @@
         android:layout_height="wrap_content"
         android:text="10h"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/ivHourglass"
-        app:layout_constraintBottom_toBottomOf="@+id/ivPostAuthor" />
+        app:layout_constraintBottom_toBottomOf="@+id/ivPostAuthor"
+        app:layout_constraintStart_toEndOf="@+id/ivHourglass" />
 
     <ImageView
         android:id="@+id/ivComments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_outline_comment_bank_24"
         android:layout_marginStart="16dp"
+        android:src="@drawable/ic_outline_comment_bank_24"
         app:layout_constraintStart_toEndOf="@+id/tvPostTime"
         app:layout_constraintTop_toTopOf="@+id/ivPostAuthor" />
 
@@ -93,7 +94,7 @@
         android:paddingStart="2dp"
         android:text="400"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/ivComments"
-        app:layout_constraintBottom_toBottomOf="@+id/ivPostAuthor" />
+        app:layout_constraintBottom_toBottomOf="@+id/ivPostAuthor"
+        app:layout_constraintStart_toEndOf="@+id/ivComments" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,9 +1,8 @@
 package com.example.redditapp.utils.extensions
 
-import android.webkit.MimeTypeMap
-
-
-
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 
 fun Double?.getHours (): String {
     if (this == null) return ""
@@ -17,4 +16,11 @@ fun Double?.getHours (): String {
     } else {
         hour.toString() + "h"
     }
+}
+
+fun Context?.isNetworkAvailable(): Boolean {
+    if (this == null) return false
+    val cm = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val activeNetworkInfo: NetworkInfo? = cm.activeNetworkInfo
+    return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting
 }
