@@ -2,6 +2,8 @@ package com.example.redditapp.model
 
 import com.google.gson.annotations.SerializedName
 
+const val POST_HINT_IMAGE = "image"
+
 data class PostModel(
     @SerializedName("id")
     val id: String?,
@@ -25,5 +27,10 @@ data class PostModel(
     val postTime: Double?,
 
     @SerializedName("is_video")
-    val is_video: Boolean
-)
+    val isVideo: Boolean,
+
+    @SerializedName("post_hint")
+    val postHint: String?
+) {
+    fun isImage() = !isVideo && postHint?.equals(POST_HINT_IMAGE) ?: false
+}

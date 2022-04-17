@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.redditapp.databinding.FragmentListBinding
@@ -36,7 +37,11 @@ class ListFragment: BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = MyAdapter { model ->
-            openDetailFragment(model)
+            if (model.isImage()) {
+                openDetailFragment(model)
+            } else {
+                Toast.makeText(activity, "NO IMAGE", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.rv.layoutManager = LinearLayoutManager(context)
@@ -45,9 +50,18 @@ class ListFragment: BaseFragment() {
         viewModel = ViewModelProvider(requireActivity()) [MyViewModel::class.java]
 
         viewModel.items.observe(viewLifecycleOwner, {
-            adapter.posts = it
+            if (it.isNullOrEmpty()) {
+                viewModel.getData()
+            } else {
+                adapter.posts = it
+            }
         })
-        viewModel.getData()
+
+//        viewModel.isLoading.observe(viewLifecycleOwner, {
+//
+//
+//        })
+
     }
 
     private fun openDetailFragment(model: PostModel) {
